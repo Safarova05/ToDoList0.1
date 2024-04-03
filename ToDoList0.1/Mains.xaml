@@ -1,0 +1,70 @@
+﻿<Window x:Class="ToDoList0._1.Mains"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ToDoList0._1"
+        mc:Ignorable="d"
+        Title="Mains" Height="450" Width="800" Background="#F7B32B">
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="3*"/>
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="5*"/>
+        </Grid.RowDefinitions>
+            
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="2.5*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="1" TextAlignment="Center" VerticalAlignment="Center" x:Name="NikeName" FontSize="20" Text="NikeName"/>
+                <Image Source="/image/users_icon/1.png" Grid.Column="0"/>
+            </Grid>
+            
+            <ScrollViewer Grid.Row="1">
+                <ListBox Background="Wheat" Name="ListRasdelov">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="4*"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Source="/image/icons/1.png" Width="48" Height="43"/>
+                        <TextBlock Grid.Column="1" Text="заметка" TextAlignment="Center" VerticalAlignment="Center"/>
+                    </Grid>
+                    <Button Content="Добавить" HorizontalAlignment="Center" FontSize="18" Width="180" Name="add1" Click="add1_Click" />
+                </ListBox>
+            </ScrollViewer>
+            
+        </Grid>
+        
+        
+        
+        <Grid Grid.Column="1" >
+
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="2.5*"/>
+            </Grid.RowDefinitions>
+            
+            <Image Grid.Row="0" Source="/image/fons/4.jpg" Stretch="Fill" />
+            <TextBlock  Text="My task" VerticalAlignment="Bottom" Margin="20,0,0,30" FontSize="40" />
+            
+            <ScrollViewer Grid.Row="1">
+                <StackPanel Margin="20,10,0,0">
+                    <CheckBox Content="case1" FontSize="15"/>
+                    <CheckBox Content="case2" FontSize="15"/>
+                    <CheckBox Content="case3" FontSize="15"/>
+                </StackPanel>
+            </ScrollViewer>
+
+        </Grid>
+
+
+    </Grid>
+</Window>
