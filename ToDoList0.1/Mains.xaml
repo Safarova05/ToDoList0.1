@@ -28,7 +28,7 @@
             </Grid>
             
             <ScrollViewer Grid.Row="1">
-                <ListBox Background="Wheat" Name="ListRasdelov">
+                <ListBox Background="Wheat" Name="ListRasdelov" SelectionChanged="ListRasdel_Selection">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -55,11 +55,9 @@
             <Image Grid.Row="0" Source="/image/fons/4.jpg" Stretch="Fill" />
             <TextBlock  Text="My task" VerticalAlignment="Bottom" Margin="20,0,0,30" FontSize="40" />
             
-            <ScrollViewer Grid.Row="1">
-                <StackPanel Margin="20,10,0,0">
-                    <CheckBox Content="case1" FontSize="15"/>
-                    <CheckBox Content="case2" FontSize="15"/>
-                    <CheckBox Content="case3" FontSize="15"/>
+            <ScrollViewer Grid.Row="1" >
+                <StackPanel Margin="20,10,0,0" Name="Stac">
+                    
                 </StackPanel>
             </ScrollViewer>
 

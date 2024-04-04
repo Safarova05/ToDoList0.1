@@ -29,10 +29,10 @@ namespace ToDoList0._1
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             rasdel.Name = NameRasdel.Text;
-            
+            this.Close();
+
             //Mains window = new Mains();
             //window.Show();
-            this.Close();
         }
         //Иконки!!!
 

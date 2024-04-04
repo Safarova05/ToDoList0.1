@@ -21,42 +21,27 @@ namespace ToDoList0._1
     /// </summary>
     public partial class MainWindow : Window
     {
+        private SqlConnection conn;
         public MainWindow()
         {
             InitializeComponent();
+            conn = new SqlConnection(@"Data Source=3205EC02\SQLEXPRESS; Initial Catalog=ToDoList; Integrated Security=True");
+            conn.Open();          
         }
 
         private void SignIn_Click(object sender, RoutedEventArgs e)
         {
-            SqlConnection conn = new SqlConnection(@"Data Source=3205EC02; Initial Catalog=ToDoList; Integrated Security=True");
-            conn.Open();
-
-            Mains window = new Mains();
-
-            
-            string map = "SELECT Login FROM Users WHERE Login = '"+Login+"'and Password ='"+Password+"'";
-            SqlCommand cmd = new SqlCommand(map, conn);
-
-            string login = Login.Text;
-            string pas = Password.Password;
-
-            //cmd.Parameters.AddWithValue("@Login", Login);
-            //cmd.Parameters.AddWithValue("@Password", Password);
-
-            SqlDataReader reader = cmd.ExecuteReader();
+            SqlCommand sqlCommand = new SqlCommand("select Id FROM Users WHERE Login = '"+ Login.Text+"' and Password = '"+ Password.Password+"';",conn);            
+            SqlDataReader reader = sqlCommand.ExecuteReader();        
 
             if (reader.Read())
             {
-                 window.Show();
-                 this.Close();
-            }
-            else
-            {
-                Text.Text = "ERROR";
-            }
-            conn.Close();
-           
-           
+                var id = reader[0].ToString();
+                reader.Close();
+                Mains mains = new Mains(conn, id);
+                mains.Show();
+                this.Close();
+            }           
         }
 
         private void SignUp_Click(object sender, RoutedEventArgs e)

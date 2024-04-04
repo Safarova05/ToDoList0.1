@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,10 +20,69 @@ namespace ToDoList0._1
     /// </summary>
     public partial class Mains : Window
     {
-        public Mains()
+        private SqlConnection conn;
+        private string id;
+
+        public Mains(SqlConnection conn, string id)
         {
             InitializeComponent();
+
+            this.conn = conn;
+            this.id = id;
+            WriteNickname();
+            WriteKatigories();
+            
+            createList();
+
             //ListRasdelov.Items.Add(CreateButton("3", "мой текст"));
+
+        }
+
+        private void createList()
+        {
+            SqlCommand cmd = new SqlCommand("select Title FROM Chapter", conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                ListRasdelov.Items.Add(reader[0]);
+            }
+            reader.Close();
+        }
+
+        private void ListRasdel_Selection(object sender, SelectionChangedEventArgs e)
+        {
+            string a = ((TextBlock)((Grid)ListRasdelov.SelectedItem).Children[1]).Text;
+            SqlCommand cmd = new SqlCommand($"select Description from Case1 where id_Chapter = (select id from Chapter where Title = '"+a+"'); ", conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+
+            while (reader.Read())
+            {
+                CheckBox checkBox = new CheckBox();
+                checkBox.Content = reader[0];
+                checkBox.FontSize = 15;
+                Stac.Children.Add(checkBox);
+            }
+            reader.Close();
+        }
+
+        private void WriteNickname()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT FIO FROM Users WHERE id = " +id,conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            reader.Read();
+            NikeName.Text = reader[0].ToString();
+            reader.Close();
+        }
+
+        private void WriteKatigories()
+        {
+            SqlCommand cmd = new SqlCommand("SELECT Title, Id_icon FROM Chapter WHERE Id_Users = '" + id + "' ", conn);
+            SqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                ListRasdelov.Items.Add(CreateButton(reader[1].ToString(), reader[0].ToString()));
+            }
+            reader.Close();
 
         }
 
@@ -57,9 +117,10 @@ namespace ToDoList0._1
         {
             Rasdel rasdel = new Rasdel();
             CreateButton window = new CreateButton(rasdel);
-            //CreateButton window = new CreateButton();
             window.ShowDialog();
             ListRasdelov.Items.Add(CreateButton(rasdel.IdIcon, rasdel.Name));
+            //CreateButton window = new CreateButton();
+            //window.ShowDialog();
             //this.Close();
         }
     }
