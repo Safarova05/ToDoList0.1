@@ -22,6 +22,7 @@ namespace ToDoList0._1
     {
         private SqlConnection conn;
         private string id;
+        private string idRasdel;
 
         public Mains(SqlConnection conn, string id)
         {
@@ -32,7 +33,7 @@ namespace ToDoList0._1
             WriteNickname();
             WriteKatigories();
             
-            createList();
+           // createList();
 
             //ListRasdelov.Items.Add(CreateButton("3", "мой текст"));
 
@@ -51,8 +52,14 @@ namespace ToDoList0._1
 
         private void ListRasdel_Selection(object sender, SelectionChangedEventArgs e)
         {
+            Stac.Children.Clear();
+
+            Button but = new Button() { Content = "Добавить" };
+            but.Click += add2_Click;
+            Stac.Children.Add(but);
+
             string a = ((TextBlock)((Grid)ListRasdelov.SelectedItem).Children[1]).Text;
-            SqlCommand cmd = new SqlCommand($"select Description from Case1 where id_Chapter = (select id from Chapter where Title = '"+a+"'); ", conn);
+            SqlCommand cmd = new SqlCommand($"select Description, StatusD from Case1 where id_Chapter = (select id from Chapter where Title = '"+a+"'); ", conn);
             SqlDataReader reader = cmd.ExecuteReader();
 
             while (reader.Read())
@@ -60,12 +67,32 @@ namespace ToDoList0._1
                 CheckBox checkBox = new CheckBox();
                 checkBox.Content = reader[0];
                 checkBox.FontSize = 15;
+
+                string b = reader[1].ToString();
+                checkBox.IsChecked = (b == "True");
                 Stac.Children.Add(checkBox);
             }
             reader.Close();
+
+            cmd = new SqlCommand($"select id from Chapter where Title = '" + a + "' ", conn);
+            reader = cmd.ExecuteReader();
+            reader.Read();
+            idRasdel = reader[0].ToString();
+            reader.Close();
+        }
+        private void add2_Click(object sender, RoutedEventArgs e)
+        {
+            Delo delo = new Delo();
+            
+            AddCheckBox addCheckBox = new AddCheckBox(delo);
+            addCheckBox.ShowDialog();
+
+            Stac.Children.Add(new CheckBox { Content = delo.Name});
+            SqlCommand sqlCommand = new SqlCommand($"insert into Case1 values ({idRasdel}, '{delo.Name}', 0);", conn);
+            sqlCommand.ExecuteNonQuery();
         }
 
-        private void WriteNickname()
+            private void WriteNickname()
         {
             SqlCommand cmd = new SqlCommand("SELECT FIO FROM Users WHERE id = " +id,conn);
             SqlDataReader reader = cmd.ExecuteReader();
@@ -119,6 +146,9 @@ namespace ToDoList0._1
             CreateButton window = new CreateButton(rasdel);
             window.ShowDialog();
             ListRasdelov.Items.Add(CreateButton(rasdel.IdIcon, rasdel.Name));
+            SqlCommand sqlCommand = new SqlCommand($"insert into Chapter VALUES ( '{rasdel.Name}', {id}, {rasdel.IdIcon}, 2);", conn);
+            sqlCommand.ExecuteNonQuery();
+            
             //CreateButton window = new CreateButton();
             //window.ShowDialog();
             //this.Close();

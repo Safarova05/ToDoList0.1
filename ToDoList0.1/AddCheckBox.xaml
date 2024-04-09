@@ -1,0 +1,15 @@
+﻿<Window x:Class="ToDoList0._1.AddCheckBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ToDoList0._1"
+        mc:Ignorable="d"
+        Title="AddCheckBox" Height="250" Width="400">
+    <Grid>
+        <TextBlock HorizontalAlignment="Left" Margin="158,63,0,0" TextWrapping="Wrap" Text="Введите задачу" VerticalAlignment="Top"/>
+        <TextBox HorizontalAlignment="Center" TextWrapping="Wrap" Name="Vord" VerticalAlignment="Center" Width="240"/>
+        <Button Content="Создать" HorizontalAlignment="Center" Margin="0,169,0,0" VerticalAlignment="Top" Width="84" Click="Button_Click"/>
+
+    </Grid>
+</Window>
